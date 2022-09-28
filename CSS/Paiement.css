@@ -1,0 +1,5 @@
+.erreur_detectee {
+	background-color: #ce6969;
+	border: 3px double red;
+	padding : 5px;
+}

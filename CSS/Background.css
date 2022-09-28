@@ -1,0 +1,24 @@
+body {
+	background: linear-gradient(to bottom right, #A18323, white);
+	background-color: #E68A2E;
+	background-attachment: fixed;
+}
+
+.Logo_du_site {
+	width: 45%;	
+}
+
+.CC_image {
+	width: 10%;
+}
+
+.titre {
+	text-shadow: 0.05em 0.05em 0.02em black;
+}
+
+.warning {
+	text-shadow: 0.05em 0.05em 0.02em black;
+	background-color: #EBAD1C;
+	color : #EDEDDF;
+	padding : 4px;
+}
