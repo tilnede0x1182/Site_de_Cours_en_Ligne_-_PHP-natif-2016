@@ -1,0 +1,26 @@
+=== ADMINS ===
+admin01 Admin123
+admin02 Admin223
+admin03 Admin323
+
+=== USERS ===
+user_julien_garcia1 Password1
+user_pauline_faure2 Password2
+user_guillaume_henry3 Password3
+user_maxime_muller4 Password4
+user_lucas_laurent5 Password5
+user_manon_girard6 Password6
+user_maxime_michel7 Password7
+user_nicolas_robert8 Password8
+user_antoine_nicolas9 Password9
+user_adrien_roux10 Password10
+user_marie_garcia11 Password11
+user_anais_michel12 Password12
+user_baptiste_martinez13 Password13
+user_quentin_andre14 Password14
+user_julie_roux15 Password15
+user_guillaume_blanc16 Password16
+user_justine_girard17 Password17
+user_emma_vincent18 Password18
+user_valentin_girard19 Password19
+user_anais_lefebvre20 Password20

@@ -1,13 +1,6 @@
 ﻿<?php
-	if (empty($fonctions_de_verification)) {
-		include "../Inscription_identification/Fonctions_de_verification.php";
-	}
-	include "../Inscription_identification/Identification.php";
-
-	if ($identifie) {
-		if (verifie_un_cours_pris($_SESSION['id'], 
-		'Cours2')) {
-			echo '
+	require __DIR__.'/partials_guard.php';
+	echo '
 <article>
 HTML et CSS : deux langages pour créer un site web.<br>
 
@@ -146,12 +139,4 @@ dès aujourd'."'".'hui avec ces nouvelles versions. Leurs apports sont nombreux
 et valent vraiment le coup. D'."'".'ailleurs, de nombreux sites web 
 professionnels se construisent aujourd'."'".'hui sur ces dernières versions.<br>
 </article>';
-		}
-		else {
-			include "footer_cours.php";
-		}
-	}
-	else {
-		include "footer_cours.php";
-	}
 ?>

@@ -6,19 +6,18 @@ function verifie_cours_pris ($id) {
 	include "../Base_de_donnees/Connection_bdd.php";
 
 	$res = array();
+	if (empty($id)) {
+		return $res;
+	}
 
 	try {
-		$requette_id = $bdd->query('select cours from cours_pris where id="'.$id.'"');
+		$requette_id = $bdd->prepare('select cours from cours_pris where id = :id');
+		$requette_id->execute([':id'=>$id]);
 
-		if (!empty($requette_id)) {
-			while (($x = $requette_id->fetch())) {
-				if (!empty($x['cours'])) {
-					$res[$x['cours']] = "pris";
-				}
+		while (($x = $requette_id->fetch(PDO::FETCH_ASSOC))) {
+			if (!empty($x['cours'])) {
+				$res[$x['cours']] = "pris";
 			}
-		}
-		else {
-			echo "Problème avec la requête.";
 		}
 	}
 	catch (exception $e) {
@@ -36,25 +35,17 @@ function verifie_un_cours_pris_avec_liste ($cours, $cours_pris) {
 function verifie_un_cours_pris ($id, $cours) {
 	include "../Base_de_donnees/Connection_bdd.php";
 
-	try {
-		$requette_cours_pris = $bdd->query('select cours from cours_pris where id="'
-		.$id.'" && cours="'.$cours.'";');
+	if (empty($id) || empty($cours)) {
+		return false;
+	}
 
-		if (!empty($requette_cours_pris)) {
-			while (($x = $requette_cours_pris->fetch())) {
-				if (!empty($x['cours']) && !empty($x['id'])) {
-					die ("id : ".$x['id']." cours : ".$x['cours']);
-				}
-				if (!empty($x['cours'])) {
-					if ($x['cours'] = $cours)
-						return true;
-				}
-			}
-		}
-		else {
-			echo "Problème avec la requête.";
-			return false;
-		}
+	try {
+		$requette_cours_pris = $bdd->prepare('select 1 from cours_pris where id = :id and cours = :cours limit 1');
+		$requette_cours_pris->execute([
+			':id'=>$id,
+			':cours'=>$cours
+		]);
+		return (bool)$requette_cours_pris->fetchColumn();
 	}
 	catch (exception $e) {
 		echo "Problème avec la bdd.";
@@ -80,7 +71,7 @@ function verifie_mdp ($mdp) {
 }
 
 function verifie_asresse ($adresse) {
-	return preg_match("/^[éèàçôîùâòa-zA-Z\d \-]+$/", $adresse);
+	return preg_match("/^[éèàçôîùâòa-zA-Z\\d ',\\-]+$/", $adresse);
 }
 function verifie_autres_champs ($champ) {
 	return preg_match("/^[éèàçôîùâòa-zA-Z\d ]+$/", $champ);

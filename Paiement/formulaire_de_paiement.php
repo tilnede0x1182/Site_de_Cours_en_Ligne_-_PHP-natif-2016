@@ -7,18 +7,20 @@
 	<link href="../CSS/Paiement.css" rel="stylesheet">
 </head>
 <body>
-<?php
-	session_start();
+<?php
+	require_once __DIR__.'/../includes/require_login.php';
 	include "../Inscription_identification/Fonctions_de_verification.php";
-
-function acheter_cours ($nom_cours) {
 	include "../Base_de_donnees/Connection_bdd.php";
+	$utilisateur_id = require_login('../PagePrincipale/Acceuil.php');
 
+function acheter_cours ($nom_cours, $id_utilisateur) {
+	global $bdd;
 	try {
-		$insertion_cours_achete = 'insert into cours_pris(id_cours_pris, id, cours) values ("", "'.
-		$_SESSION['id'].'", "'.$nom_cours.'");';
-
-		$requette_id = $bdd->exec($insertion_cours_achete);
+		$insertion_cours_achete = $bdd->prepare('insert into cours_pris(id, cours) values (:id, :cours)');
+		$insertion_cours_achete->execute([
+			':id'=>$id_utilisateur,
+			':cours'=>$nom_cours
+		]);
 	}
 	catch (exception $e) {
 		die("Erreur : ".$e->getMessage());
@@ -30,7 +32,10 @@ function acheter_cours ($nom_cours) {
 $erreur_detectee = false;
 $cours_en_cours_dachat = "";
 if (!empty($_POST['cours_achete'])) {
-	if (verifie_format_nom_cours($_POST['cours_achete'])) {
+	if (!isset($_POST['csrf_token']) || !verify_csrf_token($_POST['csrf_token'])) {
+		$erreur_detectee = true;
+	}
+	elseif (verifie_format_nom_cours($_POST['cours_achete'])) {
 		$cours_en_cours_dachat = $_POST['cours_achete'];
 	}
 	else {
@@ -43,10 +48,14 @@ if (!empty($_POST['cours_achete'])) {
 
 $cours_achete = false;
 if (!empty($_POST['cours_choisit'])) {
-	if (verifie_format_nom_cours($_POST['cours_choisit'])) {
-		acheter_cours($_POST['cours_choisit']);
+	if (!isset($_POST['csrf_token']) || !verify_csrf_token($_POST['csrf_token'])) {
+		$erreur_detectee = true;
+	}
+	elseif (verifie_format_nom_cours($_POST['cours_choisit'])) {
+		acheter_cours($_POST['cours_choisit'], $utilisateur_id);
 		$cours_achete = true;
 		header('Location: ../PagePrincipale/Acceuil.php');
+		exit;
 	}
 	else {
 		$erreur_detectee = true;
@@ -61,7 +70,8 @@ echo '<img src="../Images/Autre/formulaire_de_paiement_exemple.jpg" '
 .'alt="Formulaire de paiement (image)">';
 echo '<div>
 	<form action="" method="POST">'
-	.'<input name="cours_choisit" value="'.$cours_en_cours_dachat.'" hidden>';
+	.'<input name="cours_choisit" value="'.$cours_en_cours_dachat.'" hidden>'
+	.'<input type="hidden" name="csrf_token" value="'.htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8').'">';
 	if (!$cours_achete) {
 		if ($erreur_detectee) {
 			echo '<p class="erreur_detectee">Une erreur a été détectée.

@@ -1,13 +1,6 @@
 ﻿<?php
-	if (empty($fonctions_de_verification)) {
-		include "../Inscription_identification/Fonctions_de_verification.php";
-	}
-	include "../Inscription_identification/Identification.php";
-
-	if ($identifie) {
-		if (verifie_un_cours_pris($_SESSION['id'], 
-		'Cours1')) {
-			echo '
+	require __DIR__.'/partials_guard.php';
+	echo '
 <article>
 Le fonctionnement des sites web<br>
 
@@ -82,12 +75,4 @@ verrez s'."'".'afficher à l'."'".'écran.<br>
 Vous vous demandez sûrement pourquoi il faut connaître deux 
 langages pour créer des sites web ? Je vous réponds sans plus tarder !<br>
 </article>';
-		}
-		else {
-			include "footer_cours.php";
-		}
-	}
-	else {
-		include "footer_cours.php";
-	}
 ?>

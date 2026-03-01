@@ -14,8 +14,8 @@ else {
 	$host="localhost";
 	$dname="cours_1_bis";
 	//$dname="cours_en_ligne_1";
-	$user="root";
-	$password="";
+	$user="tilnede0x1182";
+	$password="tilnede0x1182";
 	$charset="";
 }
 

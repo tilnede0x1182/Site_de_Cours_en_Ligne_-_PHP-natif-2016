@@ -1,13 +1,6 @@
 ﻿<?php
-	if (empty($fonctions_de_verification)) {
-		include "../Inscription_identification/Fonctions_de_verification.php";
-	}
-	include "../Inscription_identification/Identification.php";
-
-	if ($identifie) {
-		if (verifie_un_cours_pris($_SESSION['id'], 
-		'Cours3')) {
-			echo '
+	require __DIR__.'/partials_guard.php';
+	echo '
 <article>
 Les sites statiques et dynamiques :<br>
 
@@ -39,12 +32,4 @@ Bien entendu, ce ne sont là que des exemples. Il est possible d'."'".'aller enc
 
 Mais… ne nous emportons pas. Avant de pouvoir en arriver là, vous avez de la lecture et bien des choses à apprendre ! Commençons par la base : savez-vous ce qui se passe lorsque vous consultez une page web ?<br>
 </article>';
-		}
-		else {
-			include "footer_cours.php";
-		}
-	}
-	else {
-		include "footer_cours.php";
-	}
 ?>

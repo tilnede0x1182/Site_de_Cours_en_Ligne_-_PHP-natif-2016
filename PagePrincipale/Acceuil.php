@@ -9,8 +9,8 @@
 </head>
 <body>
 <?php
-	session_start();
-
+	require_once __DIR__.'/../includes/session.php';
+	include "../Base_de_donnees/Connection_bdd.php";
 	include "../Inscription_identification/Verifie_identifiants_connection.php";
 	$identifiants_entres_incorrects = false;
 	$function_verifie_id_mdp=true;
@@ -23,19 +23,34 @@
 	}
 
 	if (!empty($_POST['id']) && !empty($_POST['mdp'])) {
-		if (!verifie_id($_POST['id']) || !verifie_mdp($_POST['mdp'])) {
+		if (!isset($_POST['csrf_token']) || !verify_csrf_token($_POST['csrf_token'])) {
 			$identifiants_entres_incorrects = true;
 		}
-		if (verifie_id($_POST['id']) && verifie_mdp($_POST['mdp'])) {
-			if (verifie_id_connection($_POST['id'], 
-			md5($_POST['mdp']))) {
-				$_SESSION['id']=$_POST['id'];
-				$_SESSION['mdp']=md5($_POST['mdp']);
+		elseif (!verifie_id($_POST['id']) || !verifie_mdp($_POST['mdp'])) {
+			$identifiants_entres_incorrects = true;
+		}
+		else {
+			try {
+				$requete_connexion = $bdd->prepare('SELECT mot_de_passe FROM id_mdp WHERE id = :id LIMIT 1');
+				$requete_connexion->execute([':id'=>$_POST['id']]);
+				$credentials = $requete_connexion->fetch(PDO::FETCH_ASSOC);
+				if ($credentials && (password_verify($_POST['mdp'], $credentials['mot_de_passe']) || hash_equals($credentials['mot_de_passe'], md5($_POST['mdp'])))) {
+					$_SESSION['id']=$_POST['id'];
+					$_SESSION['mdp']=$credentials['mot_de_passe'];
+					$identifiants_entres_incorrects = false;
+				}
+				else {
+					$identifiants_entres_incorrects = true;
+				}
 			}
-			else {
+			catch (Exception $e) {
 				$identifiants_entres_incorrects = true;
 			}
 		}
+	}
+
+	if ($identifiants_entres_incorrects) {
+		unset($_SESSION['id'], $_SESSION['mdp']);
 	}
 
 
@@ -75,6 +90,7 @@ echo '<nav class="nav_acceuil">
 					.' method="POST">'
 					.'<input name="cours_achete" value="Cours'.$i
 					.'" hidden></input>'
+					.'<input type="hidden" name="csrf_token" value="'.htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8').'">'
 					.'<input type="submit" value="Acheter"'
 					.'" value="Acheter">'
 					.'</input>'
@@ -129,6 +145,7 @@ echo '<nav class="nav_acceuil">
 
 		echo '<div class="cote_droit form_didentification">'
 		.'<form action="./Acceuil.php" method="POST">'
+		.'<input type="hidden" name="csrf_token" value="'.htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8').'">'
 		.'<label for "identifiant">Identifiant :</label> <br>'
 		.'<input type="text" value="'.$id.'" name="id"></input> <br>'
 		.'<label for "mdp">Mot de passe :</label> <br>'

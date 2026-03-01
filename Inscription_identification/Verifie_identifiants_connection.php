@@ -1,29 +1,26 @@
 <?php
 
-function verifie_id_connection ($id, $mdp) {
-		include "../Base_de_donnees/Connection_bdd.php";
-
-		try {
-			$requette_id = $bdd->query('select id, '
-			.'mot_de_passe from id_mdp where id="'.$id.'"');
-		}
-		catch (exception $e) {
+function verifie_id_connection ($id, $credential, $credential_est_hash = false) {
+	include "../Base_de_donnees/Connection_bdd.php";
+	try {
+		$requette_id = $bdd->prepare('SELECT mot_de_passe FROM id_mdp WHERE id = :id LIMIT 1');
+		$requette_id->execute([':id'=>$id]);
+		$row = $requette_id->fetch(PDO::FETCH_ASSOC);
+		if (!$row) {
 			return false;
 		}
-
-		try {
-			while (($x = $requette_id->fetch())) {
-				if (!empty($x['id'])) {
-					if ($id==$x['id']) {
-						return $x['mot_de_passe']==$mdp;
-					}
-				}
-			}
+		$hash = $row['mot_de_passe'];
+		if ($credential_est_hash) {
+			return hash_equals($hash, $credential);
 		}
-		catch (exception $e) {
-			return false;			
+		if (password_verify($credential, $hash)) {
+			return true;
 		}
+		return hash_equals($hash, md5($credential));
+	}
+	catch (exception $e) {
 		return false;
+	}
 }
 
 ?>

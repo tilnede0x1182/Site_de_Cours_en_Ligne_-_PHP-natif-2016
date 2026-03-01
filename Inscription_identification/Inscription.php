@@ -7,9 +7,8 @@
 </head>
 <body>
 <?php
-
+	require_once __DIR__.'/../includes/session.php';
 	include "Fonctions_de_verification.php";
-
 	include "../Base_de_donnees/Connection_bdd.php";
 	include "../Header/logo_du_site.php";
 
@@ -37,9 +36,9 @@
 	$id="";
 	if (!empty($_POST['id'])) $id = $_POST['id'];
 	$mdp1="";
-	if (!empty($_POST['id'])) $mdp1 = $_POST['mdp1'];
+	if (!empty($_POST['mdp1'])) $mdp1 = $_POST['mdp1'];
 	$mdp2="";
-	if (!empty($_POST['id'])) $mdp2 = $_POST['mdp2'];
+	if (!empty($_POST['mdp2'])) $mdp2 = $_POST['mdp2'];
 
 
 // ################################## Tests de débuggage ######################################### //
@@ -70,6 +69,10 @@
 if (!(empty($_POST['nom']) && empty($_POST['prenom']) && empty($_POST['mail'])
 	&& empty($_POST['adresse']) && empty($_POST['id']) && empty($_POST['pays'])
 	&& empty($_POST['d1']) && empty($_POST['d2']) && empty($_POST['d3']))) {
+	if (!isset($_POST['csrf_token']) || !verify_csrf_token($_POST['csrf_token'])) {
+		echo '<p class="warning">Session expirée, merci de recharger le formulaire.</p>';
+		$affiche_questionnaire = true;
+	}
 
 	if (empty($_POST['nom']) || empty($_POST['prenom']) || empty($_POST['mail'])
 		|| empty($_POST['adresse']) || empty($_POST['id'])
@@ -83,26 +86,14 @@ if (!(empty($_POST['nom']) && empty($_POST['prenom']) && empty($_POST['mail'])
 		$affiche_questionnaire = false;
 
 		try {
-			$requette_id = $bdd->query('select id from '
-			.'id_mdp where id="'.$_POST['id'].'"');
-		}
-		catch (exception $e) {
-			die("Erreur : ".$e->getMessage());
-		}
-
-		try {
-			$recherche=true;
-			while (($x = $requette_id->fetch()) && $recherche) {
-				if (!empty($x['id'])) {
-					if ($id==$x['id']) {
-						$recherche=false;
-						echo '<p class="warning">
-							Cet identifiant est déjà pris.
-							Veuillez en trouver un autre.
-						</p>';
-						$affiche_questionnaire = true;
-					}
-				}
+			$requette_id = $bdd->prepare('SELECT id FROM id_mdp WHERE id = :id LIMIT 1');
+			$requette_id->execute([':id'=>$id]);
+			if ($requette_id->fetch()) {
+				echo '<p class="warning">
+					Cet identifiant est déjà pris.
+					Veuillez en trouver un autre.
+				</p>';
+				$affiche_questionnaire = true;
 			}
 		}
 		catch (exception $e) {
@@ -212,6 +203,7 @@ if ($affiche_questionnaire) {
 	echo '
 ﻿	<h2 class="titre">Inscription nouveau membre : </h2>
 	<form action="" method="POST">
+	<input type="hidden" name="csrf_token" value="'.htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8').'">
 	<dl>
 	<dt><label for "Nom">Nom :</label></dt>
 	<dd><input type="text" name="nom" value="'.$nom.'" '.$required.'></dd>
@@ -250,22 +242,19 @@ else {
 		Questionnaire remplit.
 	</p>';
 
-	$requette_id_mdp="insert into id_mdp (id, mot_de_passe) values ('".$id."', '".md5($mdp1)."');";
-	$requette_membres="insert into membres(id_membres, nom, prenom, date_de_naissance, mail, pays, "
-	."id ,admin) "
-	." values ('', '"
-	.$nom."', '"
-	.$prenom."', '"
-	.$date_naissance."', '"
-	.$mail."', '"
-	.$pays."', '"
-	.$id."',"
-	."false"
-	.");";
-
 	try {
-		$inscription_id_mdp = $bdd->exec($requette_id_mdp);
-		$inscription_membres = $bdd->exec($requette_membres);
+		$hash = password_hash($mdp1, PASSWORD_DEFAULT);
+		$requette_id_mdp = $bdd->prepare('INSERT INTO id_mdp (id, mot_de_passe) VALUES (:id, :mdp)');
+		$requette_id_mdp->execute([':id'=>$id, ':mdp'=>$hash]);
+		$requette_membres = $bdd->prepare('INSERT INTO membres (nom, prenom, date_de_naissance, mail, pays, id, admin) VALUES (:nom, :prenom, :date_naissance, :mail, :pays, :id, false)');
+		$requette_membres->execute([
+			':nom'=>$nom,
+			':prenom'=>$prenom,
+			':date_naissance'=>$date_naissance,
+			':mail'=>$mail,
+			':pays'=>$pays,
+			':id'=>$id
+		]);
 	}
 	catch (exception $e) {
 		die("Erreur : ".$e->getMessage());
@@ -279,6 +268,7 @@ else {
 	.'Retour à la page d'."'".'accueil</a></p>';
 
 	header('Location: ../PagePrincipale/Acceuil.php');
+	exit;
 }
 
 ?>
