@@ -10,7 +10,7 @@ if (!isset($root_path)) {
 ?>
 <footer>
 <p>
-Licence : OpenClassRoom :
+Licence : Creative Commons
 <img class="CC_image" src="<?php echo $root_path; ?>assets/images/autre/CreativeCommons.jpg" alt="Creative Commons Logo">
 </p>
 </footer>
