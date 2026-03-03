@@ -23,6 +23,7 @@ if (!isset($root_path)) {
 	<meta charset="utf-8">
 	<title><?php echo htmlspecialchars($title, ENT_QUOTES, 'UTF-8'); ?></title>
 	<meta name="description" content="Site de cours en ligne">
+	<link rel="icon" href="<?php echo $root_path; ?>assets/favicon.ico" type="image/x-icon">
 <?php foreach ($css_files as $css_file): ?>
 	<link href="<?php echo $root_path; ?>assets/css/<?php echo $css_file; ?>" rel="stylesheet">
 <?php endforeach; ?>
