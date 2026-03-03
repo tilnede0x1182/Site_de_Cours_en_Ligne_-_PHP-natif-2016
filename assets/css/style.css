@@ -4,6 +4,16 @@
  */
 
 /* ==============================================================================
+   Variables CSS
+   ============================================================================== */
+
+:root {
+	--text-shadow-default: 0.05em 0.05em 0.02em black;
+	--bg-warning: #EBAD1C;
+	--color-warning: #EDEDDF;
+}
+
+/* ==============================================================================
    Base / Background
    ============================================================================== */
 
@@ -34,7 +44,7 @@ img {
    ============================================================================== */
 
 .titre {
-	text-shadow: 0.05em 0.05em 0.02em black;
+	text-shadow: var(--text-shadow-default);
 }
 
 /* ==============================================================================
@@ -42,9 +52,9 @@ img {
    ============================================================================== */
 
 .warning {
-	text-shadow: 0.05em 0.05em 0.02em black;
-	background-color: #EBAD1C;
-	color: #EDEDDF;
+	text-shadow: var(--text-shadow-default);
+	background-color: var(--bg-warning);
+	color: var(--color-warning);
 	padding: 4px;
 }
 
@@ -61,12 +71,12 @@ img {
 
 .warning_insciption_bas_de_page {
 	position: absolute;
-	text-shadow: 0.05em 0.05em 0.02em black;
+	text-shadow: var(--text-shadow-default);
 }
 
 div.warning_insciption_bas_de_page {
-	background-color: #EBAD1C;
-	color: #EDEDDF;
+	background-color: var(--bg-warning);
+	color: var(--color-warning);
 	/* margin-top: 3px; */
 	/* margin-left: 65px; */
 	padding: 8px;
@@ -91,7 +101,7 @@ div.alerte_inscription {
 .form_didentification {
 	background-color: #26B3EB;
 	border: 2px solid black;
-	text-shadow: 0.05em 0.05em 0.02em black;
+	text-shadow: var(--text-shadow-default);
 }
 
 .actions_connecte {
