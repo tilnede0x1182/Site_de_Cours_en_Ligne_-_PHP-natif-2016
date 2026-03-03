@@ -1,0 +1,277 @@
+~/code/tilnede0x1182/Personnel/2025/Entrainement/projet_fac/Web_et_Reseau/Sites_Gestion_Utilisateurs/Plateforme_Cours_Payants/Site_de_Cours_en_Ligne_-_PHP-natif-2016 ^ master
+% tree -I Archives
+.
+├── A_faire.md
+├── Base_de_donnees
+│   ├── Connection_bdd.php
+│   ├── creation_db.sql
+│   ├── Fonction_recuperation_dinofs.php
+│   ├── seed.php
+│   └── users.txt
+├── CSS
+│   ├── Acceuil.css
+│   ├── Background.css
+│   ├── Cours.css
+│   └── Paiement.css
+├── Footer
+│   └── footer_cours.php
+├── Header
+│   └── logo_du_site.php
+├── Images
+│   ├── Autre
+│   │   ├── 50px-Panneau_Attention.png
+│   │   ├── CreativeCommons.jpg
+│   │   └── formulaire_de_paiement_exemple.jpg
+│   ├── Cours
+│   │   ├── 207064.jpg.gif
+│   │   ├── 339310.png
+│   │   ├── 339311.png
+│   │   ├── 339428.png
+│   │   └── 379937.png
+│   └── Logo
+│       └── Logo1.png
+├── includes
+│   ├── require_login.php
+│   └── session.php
+├── index.php
+├── Inscription_identification
+│   ├── Fonctions_de_verification.php
+│   ├── Identification.php
+│   ├── Inscription.php
+│   └── Verifie_identifiants_connection.php
+├── PagePrincipale
+│   ├── Acceuil.php
+│   └── Deconnection.php
+├── Pages des cours
+│   ├── Cours1.php
+│   ├── Cours2.php
+│   ├── Cours3.php
+│   ├── Cours.php
+│   ├── footer_cours.php
+│   ├── Menu.php
+│   └── partials_guard.php
+├── Paiement
+│   └── formulaire_de_paiement.php
+├── README.md
+├── reflexions
+│   └── relfexion_refactor_mvc.txt
+└── tmp
+    └── refactor_mvc_1.txt
+
+16 directories, 41 files
+____
+
+~/code/tilnede0x1182/Personnel/2025/Entrainement/projet_fac/Web_et_Reseau/Sites_Gestion_Utilisateurs/Plateforme_Cours_Payants/Site_de_Cours_en_Ligne_-_PHP-natif-2016 ^ master
+% tree -I "Archives"
+.
+├── A_faire.md
+├── assets
+│   ├── css
+│   │   ├── accueil.css
+│   │   ├── background.css
+│   │   ├── cours.css
+│   │   └── paiement.css
+│   └── images
+│       ├── autre
+│       │   ├── 50px-Panneau_Attention.png
+│       │   ├── CreativeCommons.jpg
+│       │   └── formulaire_de_paiement_exemple.jpg
+│       ├── cours
+│       │   ├── 207064.jpg.gif
+│       │   ├── 339310.png
+│       │   ├── 339311.png
+│       │   ├── 339428.png
+│       │   └── 379937.png
+│       └── logo
+│           └── Logo1.png
+├── database
+│   ├── connection.php
+│   ├── creation_db.sql
+│   ├── fonctions_recuperation.php
+│   ├── models
+│   ├── seed.php
+│   └── users.txt
+├── index.php
+├── README.md
+├── reflexions
+│   └── relfexion_refactor_mvc.txt
+├── src
+│   └── pages
+│       ├── Accueil
+│       │   └── index.php
+│       ├── Auth
+│       │   ├── Connexion.php
+│       │   ├── Deconnexion.php
+│       │   └── Inscription.php
+│       ├── Cours
+│       │   ├── Contenu
+│       │   │   ├── Cours1.php
+│       │   │   ├── Cours2.php
+│       │   │   └── Cours3.php
+│       │   ├── Liste.php
+│       │   └── Menu.php
+│       └── Paiement
+│           └── Formulaire.php
+├── tmp
+│   └── refactor_mvc_1.txt
+└── utils
+    ├── includes
+    │   ├── fonctions.php
+    │   ├── partials_guard.php
+    │   ├── require_login.php
+    │   ├── session.php
+    │   └── verifie_identifiants.php
+    └── templates
+        ├── footer_cours.php
+        ├── footer.php
+        └── logo.php
+
+21 directories, 41 files
+____
+
+Tree MVC refactoré - Site Cours en Ligne - 2026-03-03
+=====================================================
+
+AVANT (anciens chemins) -> APRES (nouveaux chemins)
+===================================================
+
+CSS/Acceuil.css                                    -> assets/css/accueil.css
+CSS/Background.css                                 -> assets/css/background.css
+CSS/Cours.css                                      -> assets/css/cours.css
+CSS/Paiement.css                                   -> assets/css/paiement.css
+
+Images/Autre/                                      -> assets/images/autre/
+Images/Cours/                                      -> assets/images/cours/
+Images/Logo/                                       -> assets/images/logo/
+
+Base_de_donnees/Connection_bdd.php                 -> database/connection.php
+Base_de_donnees/creation_db.sql                    -> database/creation_db.sql
+Base_de_donnees/Fonction_recuperation_dinofs.php   -> database/fonctions_recuperation.php
+Base_de_donnees/seed.php                           -> database/seed.php
+Base_de_donnees/users.txt                          -> database/users.txt
+
+includes/require_login.php                         -> utils/includes/require_login.php
+includes/session.php                               -> utils/includes/session.php
+
+Inscription_identification/Fonctions_de_verification.php      -> utils/includes/fonctions.php
+Inscription_identification/Verifie_identifiants_connection.php -> utils/includes/verifie_identifiants.php
+Inscription_identification/Identification.php                  -> src/pages/Auth/Connexion.php
+Inscription_identification/Inscription.php                     -> src/pages/Auth/Inscription.php
+
+PagePrincipale/Acceuil.php                         -> src/pages/Accueil/index.php
+PagePrincipale/Deconnection.php                    -> src/pages/Auth/Deconnexion.php
+
+Pages des cours/Cours.php                          -> src/pages/Cours/Liste.php
+Pages des cours/Menu.php                           -> src/pages/Cours/Menu.php
+Pages des cours/Cours1.php                         -> src/pages/Cours/Contenu/Cours1.php
+Pages des cours/Cours2.php                         -> src/pages/Cours/Contenu/Cours2.php
+Pages des cours/Cours3.php                         -> src/pages/Cours/Contenu/Cours3.php
+Pages des cours/partials_guard.php                 -> utils/includes/partials_guard.php
+Pages des cours/footer_cours.php                   -> utils/templates/footer_cours.php
+
+Paiement/formulaire_de_paiement.php                -> src/pages/Paiement/Formulaire.php
+
+Header/logo_du_site.php                            -> utils/templates/logo.php
+Footer/footer_cours.php                            -> utils/templates/footer.php
+
+relfexions/relfexion_refactor_mvc.txt              -> reflexions/reflexion_refactor_mvc.txt
+
+TREE ACTUEL (après refactoring)
+===============================
+
+Site_de_Cours_en_Ligne_-_PHP-natif-2016/
+├── index.php
+├── README.md
+├── A_faire.md
+│
+├── Archives/
+│   └── [ancien code]
+│
+├── assets/
+│   ├── css/
+│   │   ├── accueil.css
+│   │   ├── background.css
+│   │   ├── cours.css
+│   │   └── paiement.css
+│   └── images/
+│       ├── autre/
+│       ├── cours/
+│       └── logo/
+│
+├── src/
+│   └── pages/
+│       ├── Accueil/
+│       │   └── index.php
+│       ├── Auth/
+│       │   ├── Connexion.php
+│       │   ├── Deconnexion.php
+│       │   └── Inscription.php
+│       ├── Cours/
+│       │   ├── Contenu/
+│       │   │   ├── Cours1.php
+│       │   │   ├── Cours2.php
+│       │   │   └── Cours3.php
+│       │   ├── Liste.php
+│       │   └── Menu.php
+│       └── Paiement/
+│           └── Formulaire.php
+│
+├── utils/
+│   ├── includes/
+│   │   ├── fonctions.php
+│   │   ├── partials_guard.php
+│   │   ├── require_login.php
+│   │   ├── session.php
+│   │   └── verifie_identifiants.php
+│   └── templates/
+│       ├── footer.php
+│       ├── footer_cours.php
+│       └── logo.php
+│
+├── database/
+│   ├── models/
+│   ├── connection.php
+│   ├── creation_db.sql
+│   ├── fonctions_recuperation.php
+│   ├── seed.php
+│   └── users.txt
+│
+├── reflexions/
+│   └── reflexion_refactor_mvc.txt
+│
+└── tmp/
+	└── refactor_mvc_1.txt
+
+MAPPING DES CHEMINS (pour mise à jour des includes/liens)
+=========================================================
+
+ANCIEN                                              NOUVEAU
+------                                              -------
+CSS/Acceuil.css                                     assets/css/accueil.css
+CSS/Background.css                                  assets/css/background.css
+CSS/Cours.css                                       assets/css/cours.css
+CSS/Paiement.css                                    assets/css/paiement.css
+Images/Autre/                                       assets/images/autre/
+Images/Cours/                                       assets/images/cours/
+Images/Logo/                                        assets/images/logo/
+Base_de_donnees/Connection_bdd.php                  database/connection.php
+Base_de_donnees/Fonction_recuperation_dinofs.php    database/fonctions_recuperation.php
+includes/require_login.php                          utils/includes/require_login.php
+includes/session.php                                utils/includes/session.php
+Inscription_identification/Fonctions_de_verification.php       utils/includes/fonctions.php
+Inscription_identification/Verifie_identifiants_connection.php utils/includes/verifie_identifiants.php
+Inscription_identification/Identification.php       src/pages/Auth/Connexion.php
+Inscription_identification/Inscription.php          src/pages/Auth/Inscription.php
+PagePrincipale/Acceuil.php                          src/pages/Accueil/index.php
+PagePrincipale/Deconnection.php                     src/pages/Auth/Deconnexion.php
+Pages des cours/Cours.php                           src/pages/Cours/Liste.php
+Pages des cours/Menu.php                            src/pages/Cours/Menu.php
+Pages des cours/Cours1.php                          src/pages/Cours/Contenu/Cours1.php
+Pages des cours/Cours2.php                          src/pages/Cours/Contenu/Cours2.php
+Pages des cours/Cours3.php                          src/pages/Cours/Contenu/Cours3.php
+Pages des cours/partials_guard.php                  utils/includes/partials_guard.php
+Pages des cours/footer_cours.php                    utils/templates/footer_cours.php
+Paiement/formulaire_de_paiement.php                 src/pages/Paiement/Formulaire.php
+Header/logo_du_site.php                             utils/templates/logo.php
+Footer/footer_cours.php                             utils/templates/footer.php
+relfexions/                                         reflexions/

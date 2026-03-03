@@ -1,0 +1,145 @@
+/**
+ * Style global - Site Cours en Ligne
+ * Fusion de : background.css, accueil.css, cours.css, paiement.css
+ */
+
+/* ==============================================================================
+   Base / Background
+   ============================================================================== */
+
+body {
+	background: linear-gradient(to bottom right, #A18323, white);
+	background-color: #E68A2E;
+	background-attachment: fixed;
+}
+
+/* ==============================================================================
+   Logo et images globales
+   ============================================================================== */
+
+.Logo_du_site {
+	height: 100px;
+}
+
+.CC_image {
+	height: 15px;
+}
+
+img {
+	background: white;
+}
+
+/* ==============================================================================
+   Titres et texte
+   ============================================================================== */
+
+.titre {
+	text-shadow: 0.05em 0.05em 0.02em black;
+}
+
+/* ==============================================================================
+   Messages d'avertissement / Warning
+   ============================================================================== */
+
+.warning {
+	text-shadow: 0.05em 0.05em 0.02em black;
+	background-color: #EBAD1C;
+	color: #EDEDDF;
+	padding: 4px;
+}
+
+.img_warning {
+	width: 20px;
+	margin-left: 20px;
+}
+
+.warning_inscription {
+	background-color: #FF0000;
+	color: #00FFFF;
+	margin-left: 10px;
+}
+
+.warning_insciption_bas_de_page {
+	position: absolute;
+	text-shadow: 0.05em 0.05em 0.02em black;
+}
+
+div.warning_insciption_bas_de_page {
+	background-color: #EBAD1C;
+	color: #EDEDDF;
+	/* margin-top: 3px; */
+	/* margin-left: 65px; */
+	padding: 8px;
+}
+
+div.alerte_inscription {
+	margin-left: 65px;
+	padding: 4px;
+}
+
+/* ==============================================================================
+   Formulaires et zones latérales
+   ============================================================================== */
+
+.cote_droit {
+	position: absolute;
+	top: 5%;
+	right: 5%;
+	padding: 10px;
+}
+
+.form_didentification {
+	background-color: #26B3EB;
+	border: 2px solid black;
+	text-shadow: 0.05em 0.05em 0.02em black;
+}
+
+.actions_connecte {
+	text-align: right;
+}
+
+.imossible_de_se_connecter {
+	background-color: #F4DD2C;
+	color: #ff5050;
+	border: 2px groove #7c4e07;
+	padding: 3px;
+	padding-left: 8px;
+	box-shadow: 0.02em 0.02em 0.02em black;
+}
+
+/* ==============================================================================
+   Achat de cours
+   ============================================================================== */
+
+.achat_cours {
+	display: inline;
+	margin-left: 35px;
+}
+
+/* ==============================================================================
+   Paiement - Erreurs
+   ============================================================================== */
+
+.erreur_detectee {
+	background-color: #ce6969;
+	border: 3px double red;
+	padding: 5px;
+}
+
+/* ==============================================================================
+   Navigation cours
+   ============================================================================== */
+
+.cours-nav {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+/* ==============================================================================
+   Footer
+   ============================================================================== */
+
+footer {
+	padding-top: 45px;
+	text-align: left;
+}
