@@ -17,9 +17,9 @@ $prenom = $_POST['prenom'] ?? '';
 $mail = $_POST['mail'] ?? '';
 $pays = $_POST['pays'] ?? '';
 $adresse = $_POST['adresse'] ?? '';
-$d1 = $_POST['d1'] ?? '';
-$d2 = $_POST['d2'] ?? '';
-$d3 = $_POST['d3'] ?? '';
+$jour = $_POST['d1'] ?? '';
+$mois = $_POST['d2'] ?? '';
+$annee = $_POST['d3'] ?? '';
 $id = $_POST['id'] ?? '';
 $mdp1 = $_POST['mdp1'] ?? '';
 $mdp2 = $_POST['mdp2'] ?? '';
@@ -75,8 +75,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	}
 
 	// Validation date de naissance (facultatif)
-	if (!empty($d1) || !empty($d2) || !empty($d3)) {
-		if (empty($d1) || empty($d2) || empty($d3) || !verifie_date_de_naissance_valide($d1, $d2, $d3)) {
+	if (!empty($jour) || !empty($mois) || !empty($annee)) {
+		if (empty($jour) || empty($mois) || empty($annee) || !verifie_date_de_naissance_valide($jour, $mois, $annee)) {
 			$erreurs[] = "Veuillez donner une date de naissance valide (ou laissez les champs vides).";
 		}
 	}
@@ -102,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	// Insertion en BDD si pas d'erreurs
 	if (empty($erreurs)) {
 		$affiche_questionnaire = false;
-		$date_naissance = (empty($d1) || empty($d2) || empty($d3)) ? "00000000" : $d1 . $d2 . $d3;
+		$date_naissance = (empty($jour) || empty($mois) || empty($annee)) ? "00000000" : $jour . $mois . $annee;
 
 		try {
 			$hash = password_hash($mdp1, PASSWORD_DEFAULT);
@@ -176,9 +176,9 @@ include $root_path . 'utils/templates/header.php';
 
 				<dt><label>Date de naissance (facultatif) :</label></dt>
 				<dd>
-					<input type="text" name="d1" size="2" value="<?php echo htmlspecialchars($d1); ?>" placeholder="JJ">
-					<input type="text" name="d2" size="2" value="<?php echo htmlspecialchars($d2); ?>" placeholder="MM">
-					<input type="text" name="d3" size="4" value="<?php echo htmlspecialchars($d3); ?>" placeholder="AAAA">
+					<input type="text" name="d1" size="2" value="<?php echo htmlspecialchars($jour); ?>" placeholder="JJ">
+					<input type="text" name="d2" size="2" value="<?php echo htmlspecialchars($mois); ?>" placeholder="MM">
+					<input type="text" name="d3" size="4" value="<?php echo htmlspecialchars($annee); ?>" placeholder="AAAA">
 				</dd>
 			</dl>
 
