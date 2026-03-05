@@ -5,6 +5,39 @@
  */
 
 // ==============================================================================
+// Chargement du .env
+// ==============================================================================
+
+/**
+ *	Charge les variables d'environnement depuis un fichier .env
+ *
+ *	@param string $path Chemin vers le fichier .env
+ */
+function load_env_file($path) {
+	if (!file_exists($path)) {
+		return;
+	}
+	$lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+	foreach ($lines as $line) {
+		$line = trim($line);
+		if ($line === '' || $line[0] === '#') {
+			continue;
+		}
+		$pos = strpos($line, '=');
+		if ($pos === false) {
+			continue;
+		}
+		$key = trim(substr($line, 0, $pos));
+		$value = trim(substr($line, $pos + 1));
+		$_ENV[$key] = $value;
+		putenv("$key=$value");
+	}
+}
+
+// Charger le .env depuis la racine du projet
+load_env_file(dirname(dirname(__DIR__)) . '/.env');
+
+// ==============================================================================
 // Chemins
 // ==============================================================================
 
@@ -20,13 +53,13 @@ define('CSS_URL', ASSETS_URL . '/css');
 define('IMAGES_URL', ASSETS_URL . '/images');
 
 // ==============================================================================
-// Base de données
+// Base de données (depuis .env)
 // ==============================================================================
 
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'cours_1_bis');
-define('DB_USER', 'tilnede0x1182');
-define('DB_PASSWORD', 'tilnede0x1182');
+define('DB_HOST', $_ENV['DB_HOST'] ?? 'localhost');
+define('DB_NAME', $_ENV['DB_NAME'] ?? '');
+define('DB_USER', $_ENV['DB_USER'] ?? '');
+define('DB_PASSWORD', $_ENV['DB_PASSWORD'] ?? '');
 define('DB_CHARSET', 'utf8');
 
 // ==============================================================================
